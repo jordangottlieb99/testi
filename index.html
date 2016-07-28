@@ -1,22 +1,29 @@
 <!DOCTYPE HTML>
 <html>
-
 <head>
 <script>
 
+// If statement...?
 if (window.openDatabase) {
-    //Create the database the parameters are 1. the database name 2.version number 3. a description 4. the size of the database (in bytes) 1024 x 1024 = 1MB
+//Create the database the parameters are 
+//1. the database name 
+//2.version number
+//	3. a description 
+//4. the size of the database (in bytes) 1024 x 1024 = 1MB
     var mydb = openDatabase("cars_db", "0.1", "A Database of Cars I Like", 1024 * 1024);
 
-    //create the cars table using SQL for the database using a transaction
+    //create the cars table using SQL for the database using a transaction MUST BE IN A TRANSACTION
     mydb.transaction(function(t) {
-        t.executeSql("CREATE TABLE IF NOT EXISTS cars (id INTEGER PRIMARY KEY ASC, make TEXT, model TEXT)");
+        t.executeSql("CREATE TABLE IF NOT EXISTS cars (id INTEGER PRIMARY KEY ASC, make TEXT, model TEXT)"); //creates table 
+		//first column is "row": this is an integer, a PK, and is in asc order
+		//second column is "make": of type "text"
+		//third column is "model": of type "text"
     });
 
 
 
 } else {
-    alert("WebSQL is not supported by your browser!");
+    alert("WebSQL is not supported by your browser!"); //will run this is webSQL is not supported by browser
 }
 
 //function to output the list of cars in the database
@@ -35,9 +42,7 @@ function updateCarList(transaction, results) {
     for (i = 0; i < results.rows.length; i++) {
         //Get the current row
         var row = results.rows.item(i);
-        if (row.make = "jo"){
-		    listholder.innerHTML += "hello you are here";}
-        //listholder.innerHTML += "<li>" + row.make + " - " + row.model + " (<a href='javascript:void(0);' onclick='deleteCar(" + row.id + ");'>Delete Car</a>)";
+        listholder.innerHTML += "<li>" + row.make + " - " + row.model + " (<a href='javascript:void(0);' onclick='deleteCar(" + row.id + ");'>Delete Car</a>)";
     }
 
 }
@@ -57,7 +62,6 @@ function outputCars() {
 }
 
 //function to add the car to the database
-
 function addCar() {
     //check to ensure the mydb object has been created
     if (mydb) {
@@ -71,6 +75,8 @@ function addCar() {
             mydb.transaction(function(t) {
                 t.executeSql("INSERT INTO cars (make, model) VALUES (?, ?)", [make, model]);
                 outputCars();
+				//window.open("http://www.w3schools.com");
+
             });
         } else {
             alert("You must enter a make and model!");
