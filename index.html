@@ -70,7 +70,6 @@ function addCar() {
             mydb.transaction(function(t) {
                 t.executeSql("INSERT INTO cars (make, model) VALUES (?, ?)", [make, model]);
                 outputCars();
-                window.open("http://www.w3schools.com");
             });
         } else {
             alert("You must enter a make and model!");
